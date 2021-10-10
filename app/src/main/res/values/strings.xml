@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">YoutubeApi</string>
+    <string name="headerText">headertext</string>
+    <string name="playlist">PlayList</string>
+    <string name="_32_video_series">video_series</string>
+    <string name="internet_connection">connection</string>
+    <string name="no_internet_connection">not connection</string>
+    <string name="try_again">try Again</string>
+</resources>
