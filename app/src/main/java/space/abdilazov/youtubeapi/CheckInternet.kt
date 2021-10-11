@@ -41,7 +41,6 @@ class CheckInternet(private val context: Context): LiveData<Boolean>() {
         }
     }
 
-
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private fun networkRequest() {
         val requestBuilder = NetworkRequest.Builder()
@@ -74,9 +73,8 @@ class CheckInternet(private val context: Context): LiveData<Boolean>() {
         }
     }
 
-                private fun update() {
-                    val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
-                    postValue(activeNetwork?.isConnected == true)
-                }
-            }
-        
+    private fun update() {
+        val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
+        postValue(activeNetwork?.isConnected == true)
+    }
+}

@@ -1,5 +1,7 @@
 package space.abdilazov.youtubeapi.ui.playlist
 
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,22 +13,25 @@ import space.abdilazov.youtubeapi.ui.adapter.PlayAdapter
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
-    private lateinit var viewModel: MainViewModel
+    private var viewModel: MainViewModel? = null
     private lateinit var playAdapter: PlayAdapter
 
-    override fun setUI() {
+    override fun setupUI() {
+
+        playAdapter = PlayAdapter()
+
+
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
     }
 
     override fun setupLiveData() {
-        viewModel.getPlayList().observe(this, { response ->
+        viewModel?.getPlayList()?.observe(this) { response ->
 
             if (response != null) {
+                Log.d("ololo", response.items?.size.toString())
                 playAdapter.addList(response.items)
             }
-
-            playAdapter = PlayAdapter()
-        })
+        }
 
         viewBinding.recyclerView.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
@@ -34,29 +39,25 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         }
     }
+
     override fun checkInternet() {
         val checkInternet = CheckInternet(this)
-        checkInternet.observe(this,{
-                isConnected->
+        checkInternet.observe(this,{isConnected->
+
             if (isConnected){
 
-                viewBinding.layoutDisconnect.visibility = View.GONE
+                viewBinding.disconnect.visibility = View.GONE
                 viewBinding.recyclerView.visibility = View.VISIBLE
 
-            }else {
+            } else {
 
-                viewBinding.layoutDisconnect.visibility = View.VISIBLE
+                viewBinding.disconnect.visibility = View.VISIBLE
                 viewBinding.recyclerView.visibility = View.GONE
             }
         })
     }
 
-
-    override fun inflateViewBinding(): ActivityMainBinding {
+    override fun inflateViewBinding(inflater: LayoutInflater): ActivityMainBinding {
         return ActivityMainBinding.inflate(layoutInflater)
-    }
-
-    override fun initClickListener() {
-        TODO("Not yet implemented")
     }
 }

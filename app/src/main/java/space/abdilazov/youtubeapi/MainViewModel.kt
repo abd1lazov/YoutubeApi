@@ -1,6 +1,7 @@
 package space.abdilazov.youtubeapi
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import retrofit2.Call
@@ -17,14 +18,15 @@ class MainViewModel: ViewModel() {
 
     private var youtubeApi: YoutubeAPI = RetrofitClient.create()
 
-    fun getPlayList(): MutableLiveData<PlayList?> {
+    fun getPlayList(): LiveData<PlayList?> {
         return createCall()
     }
 
-    private fun createCall(): MutableLiveData<PlayList?> {
-        val data = MutableLiveData<PlayList?>()
+    private fun createCall(): LiveData<PlayList?> {
 
-        RetrofitClient.create().getPlayList(Constant.PART, Constant.CHANNEL_ID, API_KEY, MAX_RESULT)
+        val data = MutableLiveData<PlayList>()
+
+        youtubeApi.getPlayList(Constant.PART, Constant.CHANNEL_ID, API_KEY, "10")
             .enqueue(object: Callback<PlayList> {
                 override fun onResponse(call: Call<PlayList>, response: Response<PlayList>) {
 
@@ -35,7 +37,6 @@ class MainViewModel: ViewModel() {
 
                         Log.d("tag", "error: " + response.code().toString())
                     }
-
                 }
 
                 override fun onFailure(call: Call<PlayList>, t: Throwable) {

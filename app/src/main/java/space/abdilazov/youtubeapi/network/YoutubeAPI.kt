@@ -7,11 +7,11 @@ import space.abdilazov.youtubeapi.model.PlayList
 
 interface YoutubeAPI {
 
-    @GET("playLists")
+    @GET("playlists")
     fun getPlayList(
         @Query("part") part: String,
         @Query("channelId") channelId: String,
         @Query("key") API_KEY: String,
-        MAX_RESULT: Int
+        @Query("maxResults") maxResult: String
     ): Call<PlayList>
 }
